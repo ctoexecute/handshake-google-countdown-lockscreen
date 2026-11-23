@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Boarding Pass to Launch — Countdown Lock Screen &amp; Generator</title>
+    <meta
+      name="description"
+      content="A Swiss-aviation inspired 30-day countdown lock screen engineered around real iOS, Android, and 4K desktop safe zones — built for Handshake AI Skills Studio × Google Gemini."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&family=Space+Grotesk:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./src/styles.css" />
+  </head>
+  <body>
+    <!-- Top Navigation -->
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <a href="#studio" class="brand">
+          <span class="brand-dot" aria-hidden="true"></span>
+          <span class="brand-name">BOARDING PASS TO LAUNCH</span>
+          <span class="brand-tag">HANDSHAKE × GEMINI</span>
+        </a>
+        <nav class="nav-links" aria-label="Primary">
+          <a href="#studio">Simulator</a>
+          <a href="#plan">Backward Plan</a>
+          <a href="#gemini">Gemini Prompts</a>
+          <a href="#downloads">Downloads</a>
+        </nav>
+        <button id="navDownloadBtn" class="btn btn-primary btn-sm" type="button">
+          Download Phone PNG
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <!-- Intro Header -->
+      <section class="hero-intro">
+        <div class="container hero-intro-inner">
+          <div class="eyebrow">
+            <span class="eyebrow-pill">NOVEMBER 2026 CHALLENGE</span>
+            <span class="eyebrow-meta">T-30 DAYS · NOV 23 → DEC 23, 2026</span>
+          </div>
+          <h1>Your deadline, engineered as a <span class="accent-text">Boarding Pass.</span></h1>
+          <p class="hero-sub">
+            Instead of another cluttered checklist, this countdown lock screen integrates your phone’s
+            native iOS or Android clock directly into the upper departure header—keeping 6 chronological
+            milestones scannable in 2 seconds with zero clock or icon overlap.
+          </p>
+        </div>
+      </section>
+
+      <!-- Studio Simulator + Live Customizer -->
+      <section id="studio" class="studio-section">
+        <div class="container studio-grid">
+          <!-- Left: Interactive Device Preview Stage -->
+          <div class="preview-stage">
+            <div class="stage-toolbar">
+              <div class="segmented" role="tablist" aria-label="Device preview mode">
+                <button class="seg-btn active" data-device="ios" role="tab" aria-selected="true" type="button">
+                  iOS 18
+                </button>
+                <button class="seg-btn" data-device="android" role="tab" aria-selected="false" type="button">
+                  Android 15
+                </button>
+                <button class="seg-btn" data-device="desktop" role="tab" aria-selected="false" type="button">
+                  Desktop 16:9
+                </button>
+              </div>
+
+              <div class="stage-toggles">
+                <button id="toggleClockBtn" class="chip-toggle active" type="button" aria-pressed="true">
+                  <span class="dot"></span>OS Clock
+                </button>
+                <button id="toggleSafeZonesBtn" class="chip-toggle" type="button" aria-pressed="false">
+                  <span class="dot"></span>Safe Zones
+                </button>
+              </div>
+            </div>
+
+            <!-- Device Frame Container -->
+            <div class="device-viewport" id="deviceViewport" data-device="ios">
+              <!-- Mobile Frame (iOS / Android) -->
+              <div class="phone-shell" id="phoneShell">
+                <div class="phone-screen">
+                  <canvas id="mobileCanvas" class="preview-canvas" width="1290" height="2796"></canvas>
+
+                  <!-- iOS 18 Realistic Overlay -->
+                  <div class="os-overlay ios-overlay" id="iosOverlay">
+                    <div class="ios-island"></div>
+                    <div class="ios-status">
+                      <span class="ios-carrier">5G</span>
+                      <span class="ios-battery">100%</span>
+                    </div>
+                    <div class="ios-clock-block">
+                      <div class="ios-date" id="iosDateText">Monday, November 23</div>
+                      <div class="ios-time" id="iosTimeText">9:41</div>
+                      <div class="ios-widget-pill">✦ GEMINI · 8:30 AM CHECK-IN</div>
+                    </div>
+                    <div class="ios-bottom-bar">
+                      <div class="ios-circle-btn" aria-hidden="true">🔦</div>
+                      <div class="ios-home-indicator" aria-hidden="true"></div>
+                      <div class="ios-circle-btn" aria-hidden="true">📷</div>
+                    </div>
+                  </div>
+
+                  <!-- Android 15 Realistic Overlay -->
+                  <div class="os-overlay android-overlay hidden" id="androidOverlay">
+                    <div class="android-status">
+                      <span>5G</span>
+                      <span>100%</span>
+                    </div>
+                    <div class="android-clock-block">
+                      <div class="android-date" id="androidDateText">Mon, Nov 23</div>
+                      <div class="android-time-stack">
+                        <span id="androidHourText">09</span>
+                        <span id="androidMinText">41</span>
+                      </div>
+                    </div>
+                    <div class="android-bottom-bar">
+                      <div class="android-shortcut" aria-hidden="true">🔦</div>
+                      <div class="android-fp" aria-hidden="true"></div>
+                      <div class="android-shortcut" aria-hidden="true">📷</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Desktop 16:9 Frame -->
+              <div class="desktop-shell hidden" id="desktopShell">
+                <div class="desktop-screen">
+                  <canvas id="desktopCanvas" class="preview-canvas" width="3840" height="2160"></canvas>
+                  <div class="os-overlay desktop-overlay" id="desktopOverlay">
+                    <div class="desktop-clock-block">
+                      <div class="desktop-date">Monday, November 23</div>
+                      <div class="desktop-time">9:41</div>
+                    </div>
+                    <div class="desktop-dock-hint"></div>
+                  </div>
+                </div>
+                <div class="desktop-stand" aria-hidden="true"></div>
+              </div>
+            </div>
+
+            <!-- Theme & Export Action Bar -->
+            <div class="stage-footer">
+              <div class="theme-switcher">
+                <span class="control-label">Finish:</span>
+                <button class="theme-pill active" data-theme="dark" type="button">
+                  <span class="swatch swatch-dark"></span>Midnight OLED
+                </button>
+                <button class="theme-pill" data-theme="light" type="button">
+                  <span class="swatch swatch-light"></span>Warm Paper
+                </button>
+              </div>
+
+              <div class="export-group">
+                <button id="exportMobileBtn" class="btn btn-primary" type="button">
+                  Export Phone PNG <span class="btn-sub">1290×2796</span>
+                </button>
+                <button id="exportDesktopBtn" class="btn btn-secondary" type="button">
+                  Export 4K Desktop <span class="btn-sub">3840×2160</span>
+                </button>
+                <button id="exportCoverBtn" class="btn btn-ghost" type="button">
+                  Handshake Cover <span class="btn-sub">1600×1000</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Live Customizer Panel -->
+          <aside class="customizer-panel" aria-label="Customize your boarding pass">
+            <div class="panel-header">
+              <div>
+                <h2>Customize Your Flight Plan</h2>
+                <p>Edit any field below to generate your own pixel-perfect lock screen.</p>
+              </div>
+            </div>
+
+            <!-- Presets -->
+            <div class="field-group">
+              <label class="field-label">Quick Presets</label>
+              <div class="preset-row" id="presetRow">
+                <button class="preset-btn active" data-preset="career" type="button">Career Launch</button>
+                <button class="preset-btn" data-preset="capstone" type="button">Capstone Sprint</button>
+                <button class="preset-btn" data-preset="newyear" type="button">2027 Launchpad</button>
+              </div>
+            </div>
+
+            <!-- Core Flight Metadata -->
+            <div class="field-group">
+              <label class="field-label" for="missionTitleInput">Deadline / Mission Title</label>
+              <input id="missionTitleInput" class="input" type="text" maxlength="36" />
+            </div>
+
+            <div class="field-grid-3">
+              <div class="field-group">
+                <label class="field-label" for="originCodeInput">From Code</label>
+                <input id="originCodeInput" class="input mono" type="text" maxlength="5" />
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="destCodeInput">To Code</label>
+                <input id="destCodeInput" class="input mono" type="text" maxlength="5" />
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="flightCodeInput">Flight ID</label>
+                <input id="flightCodeInput" class="input mono" type="text" maxlength="8" />
+              </div>
+            </div>
+
+            <div class="field-grid-2">
+              <div class="field-group">
+                <label class="field-label" for="startDateInput">Start Date</label>
+                <input id="startDateInput" class="input mono" type="date" />
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="targetDateInput">Target Deadline</label>
+                <input id="targetDateInput" class="input mono" type="date" />
+              </div>
+            </div>
+
+            <div class="recalc-row">
+              <span class="recalc-hint">Auto-space T-XX &amp; dates from Start → Target</span>
+              <button id="recalcDatesBtn" class="btn btn-ghost btn-xs" type="button">Recalculate T-XX</button>
+            </div>
+
+            <!-- 6 Milestones Editor -->
+            <div class="field-group">
+              <div class="milestone-header-row">
+                <label class="field-label">6 Chronological Milestones</label>
+                <span class="field-hint">Click dot to set Active stage</span>
+              </div>
+              <div id="milestonesEditor" class="milestones-editor"></div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- Section 2: Backward Plan Breakdown -->
+      <section id="plan" class="content-section">
+        <div class="container">
+          <div class="section-head">
+            <span class="section-kicker">01 · BACKWARD PLANNING</span>
+            <h2>From Launch Day Back to Today</h2>
+            <p>
+              Built with Google Gemini by working backward from the target deadline with a built-in
+              24-hour safety buffer. Each milestone fits on one scannable lock-screen line while mapping
+              to a concrete Definition of Done.
+            </p>
+          </div>
+          <div id="backwardPlanGrid" class="plan-grid"></div>
+        </div>
+      </section>
+
+      <!-- Section 3: Gemini Prompts & Daily Reminders -->
+      <section id="gemini" class="content-section alt-surface">
+        <div class="container">
+          <div class="section-head">
+            <span class="section-kicker">02 · GOOGLE GEMINI WORKFLOW</span>
+            <h2>Backward Planning, Design &amp; Daily Reminders</h2>
+            <p>
+              Every prompt below dynamically updates to match your customized deadline above. Copy and
+              paste directly into Google Gemini to replicate the full mission workflow and activate
+              daily check-ins.
+            </p>
+          </div>
+
+          <div class="prompt-grid">
+            <article class="prompt-card">
+              <div class="prompt-card-head">
+                <div>
+                  <span class="prompt-step">PROMPT 01</span>
+                  <h3>Backward-Planning Architect</h3>
+                </div>
+                <button class="btn btn-secondary btn-xs copy-btn" data-copy="backwardPlan" type="button">
+                  Copy Prompt
+                </button>
+              </div>
+              <pre id="promptBackward" class="prompt-code"></pre>
+            </article>
+
+            <article class="prompt-card">
+              <div class="prompt-card-head">
+                <div>
+                  <span class="prompt-step">PROMPT 02</span>
+                  <h3>Multimodal Lock Screen Design</h3>
+                </div>
+                <button class="btn btn-secondary btn-xs copy-btn" data-copy="multimodalDesign" type="button">
+                  Copy Prompt
+                </button>
+              </div>
+              <pre id="promptDesign" class="prompt-code"></pre>
+            </article>
+
+            <article class="prompt-card">
+              <div class="prompt-card-head">
+                <div>
+                  <span class="prompt-step">PROMPT 03</span>
+                  <h3>Scheduled Daily Reminders</h3>
+                </div>
+                <button class="btn btn-secondary btn-xs copy-btn" data-copy="dailyReminders" type="button">
+                  Copy Prompt
+                </button>
+              </div>
+              <pre id="promptReminders" class="prompt-code"></pre>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: Ready-to-Use Downloads & Safe-Zone Engineering -->
+      <section id="downloads" class="content-section">
+        <div class="container">
+          <div class="section-head">
+            <span class="section-kicker">03 · READY TO SET TODAY</span>
+            <h2>High-Resolution Wallpapers &amp; Safe-Zone Specs</h2>
+            <p>
+              Download pre-rendered flagship wallpapers immediately, or export your customized version
+              from the studio above. Every asset is calibrated against real iOS, Android, and desktop
+              lock-screen geometry.
+            </p>
+          </div>
+
+          <div class="downloads-grid">
+            <a class="download-card" href="./downloads/lockscreen-mobile-dark-1290x2796.png" download>
+              <span class="dl-badge">MOBILE · OLED DARK</span>
+              <h3>Phone Lock Screen (Dark)</h3>
+              <p>1290 × 2796 px · 9:19.5 · Top 28% &amp; Bottom 16.2% clear</p>
+              <span class="dl-action">Download PNG →</span>
+            </a>
+
+            <a class="download-card" href="./downloads/lockscreen-mobile-light-1290x2796.png" download>
+              <span class="dl-badge">MOBILE · ARCHIVAL PAPER</span>
+              <h3>Phone Lock Screen (Warm Paper)</h3>
+              <p>1290 × 2796 px · Dark clock header + warm paper ticket</p>
+              <span class="dl-action">Download PNG →</span>
+            </a>
+
+            <a class="download-card" href="./downloads/lockscreen-desktop-dark-3840x2160.png" download>
+              <span class="dl-badge">DESKTOP · 4K 16:9</span>
+              <h3>Desktop Departure Board</h3>
+              <p>3840 × 2160 px · Left 22% icons &amp; Top 23% clock clear</p>
+              <span class="dl-action">Download PNG →</span>
+            </a>
+
+            <a class="download-card" href="./downloads/handshake-cover-1600x1000.png" download>
+              <span class="dl-badge">SHOWCASE COVER · 16:10</span>
+              <h3>Handshake Project Cover</h3>
+              <p>1600 × 1000 px · Top-left badge-safe editorial hero</p>
+              <span class="dl-action">Download PNG →</span>
+            </a>
+          </div>
+
+          <div class="specs-strip">
+            <div class="spec-item">
+              <span class="spec-num">28%</span>
+              <span class="spec-label">Top Clock &amp; Widget Safe Zone (0–783px)</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-num">16.2%</span>
+              <span class="spec-label">Bottom Flashlight / Camera / Home Bar Zone</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-num">72px</span>
+              <span class="spec-label">Side Perspective-Zoom Safe Margins</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-num">&lt; 2s</span>
+              <span class="spec-label">Glanceable Milestone &amp; Active Stage Scan</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <span>Boarding Pass to Launch · Built for Handshake AI Skills Studio × Google Gemini</span>
+        <span class="mono">NOV 2026</span>
+      </div>
+    </footer>
+
+    <!-- Offscreen canvas for Handshake Cover export -->
+    <canvas id="coverCanvas" class="hidden" width="1600" height="1000"></canvas>
+
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>

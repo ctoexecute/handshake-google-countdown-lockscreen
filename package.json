@@ -1,0 +1,15 @@
+{
+  "name": "boarding-pass-to-launch",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Boarding Pass to Launch — 30-Day Countdown Lock Screen & Interactive Generator for Handshake AI Skills Studio X Google",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^6.2.0"
+  }
+}
